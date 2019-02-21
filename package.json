@@ -1,0 +1,41 @@
+{
+    "author": "Behrooz Kamali",
+    "bugs": {
+        "url": "https://github.com/behroozk/neo4j-db/issues"
+    },
+    "dependencies": {
+        "neo4j-driver": "^1.7.2",
+        "request": "^2.88.0"
+    },
+    "description": "Wrapper for official Neo4j driver",
+    "devDependencies": {
+        "@types/node": "^11.9.4",
+        "@types/request": "^2.48.1",
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.3"
+    },
+    "homepage": "https://github.com/behroozk/neo4j-db#readme",
+    "keywords": [
+        "database",
+        "neo4j",
+        "driver",
+        "client",
+        "bolt"
+    ],
+    "license": "GPL",
+    "main": "dist/index.js",
+    "name": "neo4j-db",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/behroozk/neo4j-db.git"
+    },
+    "scripts": {
+        "build": "tsc",
+        "clean": "rm -rf dist/",
+        "clean-build": "npm run clean ; npm run build",
+        "prepare": "npm run clean-build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "typings": "dist/index.d.ts",
+    "version": "1.0.0"
+}
