@@ -6,7 +6,7 @@ export interface INeo4jClient {
 }
 
 export interface INeo4jSession {
-    execute(query: string, options: IQueryOptions): Promise<any>;
+    execute(query: string, options?: IQueryOptions): Promise<any>;
 }
 
 export interface INeo4jTransactionalSession extends INeo4jSession {

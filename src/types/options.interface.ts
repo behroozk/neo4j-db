@@ -1,5 +1,5 @@
 export interface INeo4jOptions {
-    protocol?: ConnectionProtocol;
+    protocol?: Neo4jConnectionProtocol;
     host: string;
     port?: number;
 
@@ -12,7 +12,7 @@ export interface INeo4jOptions {
     logTimed?: boolean;
 }
 
-export enum ConnectionProtocol {
+export enum Neo4jConnectionProtocol {
     BOLT = 'bolt',
     // HTTP = 'http',
     // HTTPS = 'https',

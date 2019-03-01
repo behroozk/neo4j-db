@@ -3,7 +3,7 @@ import { v1 as Neo4j } from 'neo4j-driver';
 import { Neo4jBoltSession } from './bolt/bolt_session';
 import { Neo4jBoltTransactionalSession } from './bolt/bolt_transactional_session';
 import { INeo4jClient, INeo4jSession, INeo4jTransactionalSession } from './types/database.interface';
-import { ConnectionProtocol, IClientAuthentican, INeo4jOptions, LogLevel } from './types/options.interface';
+import { IClientAuthentican, INeo4jOptions, LogLevel, Neo4jConnectionProtocol } from './types/options.interface';
 
 export class Neo4jClient implements INeo4jClient {
     private options: Required<INeo4jOptions>;
@@ -15,7 +15,7 @@ export class Neo4jClient implements INeo4jClient {
         const authToken = getAuthenticationToken(this.options.authentication);
 
         this.client = Neo4j.driver(
-            `bolt://${options.host}:${options.port}`,
+            `${options.protocol}://${options.host}:${options.port}`,
             authToken,
             {
                 connectionTimeout: options.connectionTimeout,
@@ -44,11 +44,11 @@ const DEFAULT_BOLT_OPTIONS = {
     logLevel: LogLevel.ERROR,
     logTimed: true,
     port: 7687,
-    protocol: ConnectionProtocol.BOLT,
+    protocol: Neo4jConnectionProtocol.BOLT,
 };
 
 function getCompleteClientOptions(partialOptions: INeo4jOptions): Required<INeo4jOptions> {
-    if (!partialOptions.protocol || partialOptions.protocol === ConnectionProtocol.BOLT) {
+    if (!partialOptions.protocol || partialOptions.protocol === Neo4jConnectionProtocol.BOLT) {
         return { ...DEFAULT_BOLT_OPTIONS, ...partialOptions };
     } else {
         throw new Error('HTTP session not implemented yet');
