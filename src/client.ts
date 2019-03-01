@@ -59,7 +59,9 @@ function getAuthenticationToken(authentication: IClientAuthentican): Neo4j.AuthT
     if (authentication.username && authentication.password) {
         return Neo4j.auth.basic(authentication.username, authentication.password);
     } else if (authentication.ticket) {
-        return Neo4j.auth.kerberos(authentication.ticket);
+        const credentialsString: string = Buffer.from(authentication.ticket, 'base64').toString();
+        const [username, password] = credentialsString.split(':');
+        return Neo4j.auth.basic(username, password);
     }
 
     return undefined;
