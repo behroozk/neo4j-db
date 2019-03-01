@@ -9,10 +9,10 @@
     },
     "description": "Wrapper for official Neo4j driver",
     "devDependencies": {
-        "@types/node": "^11.9.4",
+        "@types/node": "^11.9.6",
         "@types/request": "^2.48.1",
-        "tslint": "^5.12.1",
-        "typescript": "^3.3.3"
+        "tslint": "^5.13.1",
+        "typescript": "^3.3.3333"
     },
     "homepage": "https://github.com/behroozk/neo4j-db#readme",
     "keywords": [
@@ -37,5 +37,5 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "typings": "dist/index.d.ts",
-    "version": "1.0.0"
+    "version": "1.0.1"
 }
