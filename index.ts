@@ -3,7 +3,7 @@ import { INeo4jClient, INeo4jSession, INeo4jTransactionalSession } from './src/t
 import { IClientAuthentican, INeo4jOptions, LogLevel, Neo4jConnectionProtocol } from './src/types/options.interface';
 
 export {
-    Neo4jConnectionProtocol as ConnectionProtocol,
+    Neo4jConnectionProtocol,
     IClientAuthentican,
     INeo4jOptions,
     INeo4jClient,
