@@ -6,7 +6,7 @@
   "jsRules": {},
   "rules": {
     "quotemark": {
-      "options": "single"
+      "options": "double"
     }
   },
   "rulesDirectory": []
