@@ -11,7 +11,7 @@ export interface INeo4jOptions {
     logLevel?: LogLevel;
     logTimed?: boolean;
 
-    resultUnescaper?: (value: string) => string;
+    stringFormatter?: (value: string) => string;
 }
 
 export enum Neo4jConnectionProtocol {

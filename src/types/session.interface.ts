@@ -11,5 +11,5 @@ export interface INeo4jTransactionalSession extends INeo4jSession {
 }
 
 export interface INeo4jSessionOptions {
-    resultUnescaper?: (value: string) => string;
+    stringFormatter?: (value: string) => string;
 }

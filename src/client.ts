@@ -1,9 +1,10 @@
-import { v1 as Neo4j } from 'neo4j-driver';
+import { v1 as Neo4j } from "neo4j-driver";
 
-import { Neo4jBoltSession } from './bolt/bolt_session';
-import { Neo4jBoltTransactionalSession } from './bolt/bolt_transactional_session';
-import { INeo4jClient, INeo4jSession, INeo4jTransactionalSession } from './types/database.interface';
-import { IClientAuthentican, INeo4jOptions, LogLevel, Neo4jConnectionProtocol } from './types/options.interface';
+import { Neo4jBoltSession } from "./bolt/bolt_session";
+import { Neo4jBoltTransactionalSession } from "./bolt/bolt_transactional_session";
+import { INeo4jClient } from "./types/client.interface";
+import { IClientAuthentican, INeo4jOptions, LogLevel, Neo4jConnectionProtocol } from "./types/options.interface";
+import { INeo4jSession, INeo4jTransactionalSession } from "./types/session.interface";
 
 export class Neo4jClient implements INeo4jClient {
     private options: Required<INeo4jOptions>;
@@ -28,12 +29,16 @@ export class Neo4jClient implements INeo4jClient {
 
     public getSession(): INeo4jSession {
         const session = this.client.session();
-        return new Neo4jBoltSession(session);
+        return new Neo4jBoltSession(session, {
+            stringFormatter: this.options.stringFormatter,
+        });
     }
 
     public getTransactionalSession(): INeo4jTransactionalSession {
         const session = this.client.session();
-        return new Neo4jBoltTransactionalSession(session);
+        return new Neo4jBoltTransactionalSession(session, {
+            stringFormatter: this.options.stringFormatter,
+        });
     }
 }
 
@@ -45,13 +50,14 @@ const DEFAULT_BOLT_OPTIONS = {
     logTimed: true,
     port: 7687,
     protocol: Neo4jConnectionProtocol.BOLT,
+    stringFormatter: (value: string) => value,
 };
 
 function getCompleteClientOptions(partialOptions: INeo4jOptions): Required<INeo4jOptions> {
     if (!partialOptions.protocol || partialOptions.protocol === Neo4jConnectionProtocol.BOLT) {
         return { ...DEFAULT_BOLT_OPTIONS, ...partialOptions };
     } else {
-        throw new Error('HTTP session not implemented yet');
+        throw new Error("HTTP session not implemented yet");
     }
 }
 
@@ -59,8 +65,8 @@ function getAuthenticationToken(authentication: IClientAuthentican): Neo4j.AuthT
     if (authentication.username && authentication.password) {
         return Neo4j.auth.basic(authentication.username, authentication.password);
     } else if (authentication.ticket) {
-        const credentialsString: string = Buffer.from(authentication.ticket, 'base64').toString();
-        const [username, password] = credentialsString.split(':');
+        const credentialsString: string = Buffer.from(authentication.ticket, "base64").toString();
+        const [username, password] = credentialsString.split(":");
         return Neo4j.auth.basic(username, password);
     }
 
