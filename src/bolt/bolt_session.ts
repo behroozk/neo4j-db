@@ -14,7 +14,7 @@ export class Neo4jBoltSession extends AbstractBoltSession implements INeo4jSessi
         this.session.close();
 
         return this.parseRecords(result.records, {
-            singularOutput: options.stringFormatter,
+            singularOutput: options.singularOutput,
             stringFormatter: this.options.stringFormatter,
         });
     }

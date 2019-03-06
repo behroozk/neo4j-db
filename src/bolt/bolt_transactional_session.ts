@@ -15,7 +15,7 @@ export class Neo4jBoltTransactionalSession extends AbstractBoltSession implement
     public async execute(query: string, options: IQueryOptions = {}): Promise<any> {
         const result = await this.transaction.run(query);
         return this.parseRecords(result.records, {
-            singularOutput: options.stringFormatter,
+            singularOutput: options.singularOutput,
             stringFormatter: this.options.stringFormatter,
         });
     }

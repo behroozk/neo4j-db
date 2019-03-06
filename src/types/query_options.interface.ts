@@ -1,3 +1,3 @@
 export interface IQueryOptions {
-    stringFormatter?: boolean;
+    singularOutput?: boolean;
 }
