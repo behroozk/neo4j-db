@@ -10,12 +10,14 @@ export interface INeo4jOptions {
 
     logLevel?: LogLevel;
     logTimed?: boolean;
+
+    resultUnescaper?: (value: string) => string;
 }
 
 export enum Neo4jConnectionProtocol {
-    BOLT = 'bolt',
-    // HTTP = 'http',
-    // HTTPS = 'https',
+    BOLT = "bolt",
+    // HTTP = "http",
+    // HTTPS = "https",
 }
 
 export enum LogLevel {
