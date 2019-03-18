@@ -4,14 +4,14 @@
         "url": "https://github.com/behroozk/neo4j-db/issues"
     },
     "dependencies": {
-        "neo4j-driver": "^1.7.2",
+        "neo4j-driver": "^1.7.3",
         "request": "^2.88.0"
     },
     "description": "Wrapper for official Neo4j driver",
     "devDependencies": {
-        "@types/node": "^11.10.4",
+        "@types/node": "^11.11.3",
         "@types/request": "^2.48.1",
-        "tslint": "^5.13.1",
+        "tslint": "^5.14.0",
         "typescript": "^3.3.3333"
     },
     "homepage": "https://github.com/behroozk/neo4j-db#readme",
@@ -37,5 +37,5 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "typings": "dist/index.d.ts",
-    "version": "1.1.1"
+    "version": "1.2.0"
 }
