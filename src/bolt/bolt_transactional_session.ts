@@ -16,26 +16,22 @@ export class Neo4jBoltTransactionalSession extends AbstractBoltSession implement
     public async execute(query: string, options: IQueryOptions = {}): Promise<any> {
         return new Promise((resolve, reject) => {
             const parsedRecords: any[] = [];
-            this.session.run(query).subscribe({
+            this.transaction.run(query).subscribe({
                 onCompleted: () => {
                     if (options.singularOutput) {
                         resolve(parsedRecords[0]);
                     } else {
                         resolve(parsedRecords);
                     }
-
-                    this.session.close();
                 },
                 onError: (error) => {
                     reject(error);
-                    this.session.close();
                 },
                 onNext: (record) => {
                     const parsedRecord = parseNeo4jResult(record, this.options.stringFormatter);
 
                     if (options.singularOutput && parsedRecords.length > 1) {
                         reject(new Error(`multiple records returned in signular mode`));
-                        return this.session.close();
                     }
 
                     parsedRecords.push(parsedRecord);
