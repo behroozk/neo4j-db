@@ -28,7 +28,11 @@ export class Neo4jBoltTransactionalSession extends AbstractBoltSession implement
                     reject(error);
                 },
                 onNext: (record) => {
-                    const parsedRecord = parseNeo4jResult(record, this.options.stringFormatter);
+                    const stringFormatter = Object.keys(options).indexOf("stringFormatter") > -1 ?
+                        options.stringFormatter
+                        :
+                        this.options.stringFormatter;
+                    const parsedRecord = parseNeo4jResult(record, stringFormatter);
 
                     if (options.singularOutput && parsedRecords.length > 1) {
                         reject(new Error(`multiple records returned in signular mode`));
