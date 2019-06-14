@@ -8,7 +8,11 @@ export function parseNeo4jResult(result: any, resultUnescaper?: null | ((value: 
         return result;
     } else if (typeof result === "string") {
         if (resultUnescaper) {
-            return resultUnescaper(result);
+            try {
+                return resultUnescaper(result);
+            } catch {
+                return result;
+            }
         } else {
             return result;
         }
