@@ -30,6 +30,7 @@ export class Neo4jClient implements INeo4jClient {
     public getSession(): INeo4jSession {
         const session = this.client.session();
         return new Neo4jBoltSession(session, {
+            logLevel: this.options.logLevel,
             stringFormatter: this.options.stringFormatter,
         });
     }
@@ -37,6 +38,7 @@ export class Neo4jClient implements INeo4jClient {
     public getTransactionalSession(): INeo4jTransactionalSession {
         const session = this.client.session();
         return new Neo4jBoltTransactionalSession(session, {
+            logLevel: this.options.logLevel,
             stringFormatter: this.options.stringFormatter,
         });
     }
