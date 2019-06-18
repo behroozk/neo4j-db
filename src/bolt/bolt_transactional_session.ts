@@ -1,8 +1,7 @@
-import * as Logger from "console";
 import { v1 as Neo4j } from "neo4j-driver";
 
+import * as Logger from "../logger";
 import { parseNeo4jResult } from "../parse_result";
-import { LogLevel } from "../types/options.interface";
 import { IQueryOptions } from "../types/query_options.interface";
 import { INeo4jSessionOptions, INeo4jTransactionalSession } from "../types/session.interface";
 import { AbstractBoltSession } from "./bolt_abstract";
@@ -29,18 +28,12 @@ export class Neo4jBoltTransactionalSession extends AbstractBoltSession implement
                         resolve(parsedRecords);
                     }
 
-                    if (this.options.logLevel === LogLevel.ALL) {
-                        const shortQuery = query.replace(/\s\s+/g, "").substr(0, 50) + " ...";
-                        Logger.info(`${shortQuery} in ${Date.now() - startTime}ms`);
-                    }
+                    Logger.logQuery(query, Date.now() - startTime, { logLevel: this.options.logLevel });
                 },
                 onError: (error) => {
                     reject(error);
 
-                    if (this.options.logLevel === LogLevel.ALL || this.options.logLevel === LogLevel.ERROR) {
-                        const shortQuery = query.replace(/\s\s+/g, "").substr(0, 50) + " ...";
-                        Logger.error(`ERROR: ${shortQuery} in ${Date.now() - startTime}ms`);
-                    }
+                    Logger.logQuery(query, Date.now() - startTime, { logLevel: this.options.logLevel, isError: true });
                 },
                 onNext: (record) => {
                     const stringFormatter = Object.keys(options).indexOf("stringFormatter") > -1 ?
