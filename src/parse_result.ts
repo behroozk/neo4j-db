@@ -1,4 +1,4 @@
-import { v1 as Neo4j } from "neo4j-driver";
+import * as Neo4j from "neo4j-driver";
 
 export function parseNeo4jResult(result: any, resultUnescaper?: null | ((value: string) => string)): any {
     if (typeof result === "boolean"

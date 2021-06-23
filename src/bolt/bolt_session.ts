@@ -1,12 +1,15 @@
-import { v1 as Neo4j } from "neo4j-driver";
+import * as Neo4j from "neo4j-driver";
 
 import * as Logger from "../logger";
 import { parseNeo4jResult } from "../parse_result";
 import { IQueryOptions } from "../types/query_options.interface";
-import { INeo4jSession, INeo4jSessionOptions } from "../types/session.interface";
+import { INeo4jSessionOptions, INeo4jSession } from "../types/session.interface";
 
 export class Neo4jBoltSession implements INeo4jSession {
-    constructor(private session: Neo4j.Session, private options: INeo4jSessionOptions) { }
+    constructor(
+        private session: Neo4j.Session,
+        private options: INeo4jSessionOptions,
+    ) { }
 
     public execute(query: string, options: IQueryOptions = {}): Promise<any> {
         const startTime = Date.now();
@@ -32,7 +35,7 @@ export class Neo4jBoltSession implements INeo4jSession {
 
                     Logger.logQuery(query, Date.now() - startTime, { logLevel: this.options.logLevel, isError: true });
                 },
-                onNext: (record) => {
+                onNext: (record): Promise<void> => {
                     const stringFormatter = Object.keys(options).indexOf("stringFormatter") > -1 ?
                         options.stringFormatter
                         :
@@ -45,17 +48,21 @@ export class Neo4jBoltSession implements INeo4jSession {
                     }
 
                     parsedRecords.push(parsedRecord);
+                    return Promise.resolve();
                 },
             });
         });
+    }
 
-        // promise approach to get all results at once
-        // const result = await this.session.run(query);
-        // this.session.close();
+    public commit(): Promise<void> {
+        return Promise.resolve()
+    }
 
-        // return this.parseRecords(result.records, {
-        //     singularOutput: options.singularOutput,
-        //     stringFormatter: this.options.stringFormatter,
-        // });
+    public rollback(): Promise<void> {
+        return Promise.resolve()
+    }
+
+    public isOpen(): boolean {
+        return false;
     }
 }

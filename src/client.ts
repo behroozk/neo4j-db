@@ -1,10 +1,10 @@
-import { v1 as Neo4j } from "neo4j-driver";
+import * as Neo4j from "neo4j-driver";
 
 import { Neo4jBoltSession } from "./bolt/bolt_session";
 import { Neo4jBoltTransactionalSession } from "./bolt/bolt_transactional_session";
 import { INeo4jClient } from "./types/client.interface";
 import { IClientAuthentican, INeo4jOptions, LogLevel, Neo4jConnectionProtocol } from "./types/options.interface";
-import { INeo4jSession, INeo4jTransactionalSession } from "./types/session.interface";
+import { INeo4jSession } from "./types/session.interface";
 
 export class Neo4jClient implements INeo4jClient {
     private options: Required<INeo4jOptions>;
@@ -35,7 +35,7 @@ export class Neo4jClient implements INeo4jClient {
         });
     }
 
-    public getTransactionalSession(): INeo4jTransactionalSession {
+    public getTransactionalSession(): INeo4jSession {
         const session = this.client.session();
         return new Neo4jBoltTransactionalSession(session, {
             logLevel: this.options.logLevel,

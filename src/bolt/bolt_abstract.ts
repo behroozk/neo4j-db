@@ -1,4 +1,4 @@
-import { v1 as Neo4j } from "neo4j-driver";
+import * as Neo4j from "neo4j-driver";
 
 import { parseNeo4jResult } from "../parse_result";
 import { IParserOptions } from "../types/parser_options.interface";
