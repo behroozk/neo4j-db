@@ -3,6 +3,7 @@ import { IQueryOptions } from "./query_options.interface";
 
 export interface INeo4jSession {
     execute(query: string, options?: IQueryOptions): Promise<any>;
+    execWithParams(query: string, params: Record<string, any>, options?: IQueryOptions): Promise<any>;
     commit(): Promise<void>;
     rollback(): Promise<void>;
     isOpen(): boolean;

@@ -12,12 +12,20 @@ export class Neo4jBoltSession implements INeo4jSession {
     ) { }
 
     public execute(query: string, options: IQueryOptions = {}): Promise<any> {
+        return this.execWithParams(query, {}, options);
+    }
+
+    public execWithParams(
+        query: string,
+        params: Record<string, any>,
+        options: IQueryOptions = {},
+    ): Promise<any> {
         const startTime = Date.now();
 
         return new Promise((resolve, reject) => {
             const parsedRecords: any[] = [];
 
-            this.session.run(query).subscribe({
+            this.session.run(query, params).subscribe({
                 onCompleted: () => {
                     if (options.singularOutput) {
                         resolve(parsedRecords[0]);

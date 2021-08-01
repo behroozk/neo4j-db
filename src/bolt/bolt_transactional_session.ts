@@ -15,12 +15,16 @@ export class Neo4jBoltTransactionalSession extends AbstractBoltSession implement
     }
 
     public async execute(query: string, options: IQueryOptions = {}): Promise<any> {
+        return this.execWithParams(query, {}, options);
+    }
+
+    public async execWithParams(query: string, params: Record<string, any>, options: IQueryOptions = {}): Promise<any> {
         const startTime = Date.now();
 
         return new Promise((resolve, reject) => {
             const parsedRecords: any[] = [];
 
-            this.transaction.run(query).subscribe({
+            this.transaction.run(query, params).subscribe({
                 onCompleted: () => {
                     if (options.singularOutput) {
                         resolve(parsedRecords[0]);
